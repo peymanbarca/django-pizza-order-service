@@ -9,3 +9,4 @@ static/**
 *.vcs
 .idea/**
 **/migrations/**
+.idea/
