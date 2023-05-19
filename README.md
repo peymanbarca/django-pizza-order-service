@@ -1,4 +1,5 @@
 #  Pizza ordering service using Django REST framework
+Using Python 3.9, Django 4.2.1, djangorestframework 3.14.0, and PostgreSQL database
 
 ### In this project, we implemented CRUD RESTful APIs with Django and Django REST framework, to implement a pizza ordering services with the following functionality:
 
@@ -35,7 +36,8 @@ This application used for implement the APIs and logic for CRUD actions for pizz
 
 ### Run locally
 In order to run the project on local machine, first you need to have a PostgreSQL database up. So using the docker-compose
-setup available in the project, by using the following command, you can setup a database, which used in the project.
+setup available in the project, by using the following command, you can setup a database as a container in dockerized mode,
+ which used in the project.
    
     docker-compose up -d postgres_db
     
@@ -86,6 +88,9 @@ Start the database:
 Start the project application server:
 
     docker-compose up -d --build django_app
+
+**Note that you may be confront a connection problem to the database with IP 0.0.0.0 privded in the setting for DB. In this case,
+ you have to change the host in setting (DATABASES section), and set the external IP of the server or container name to use docker network for database connection**
 
 So the server must be start up at the:
  
