@@ -10,7 +10,7 @@ services:
     networks:
         - one_network
     depends_on:
-      db
+      - db
 
   db:
     image: postgres:10.3
