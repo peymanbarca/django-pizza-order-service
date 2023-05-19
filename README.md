@@ -85,7 +85,7 @@ Start the database:
 
 Start the project application server:
 
-    docker-compose up -d django_app
+    docker-compose up -d --build django_app
 
 So the server must be start up at the:
  
