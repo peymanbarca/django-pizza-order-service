@@ -9,6 +9,8 @@ services:
       - '8000:8000'
     networks:
         - one_network
+    depends_on:
+      db
 
   db:
     image: postgres:10.3
