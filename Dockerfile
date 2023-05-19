@@ -24,4 +24,4 @@ RUN cd /django-pizza-order-service && make migrate
 RUN cd /django-pizza-order-service && make collectstatic
 
 # Set the command to run the server.
-CMD ["cd", "/django-pizza-order-service", "make", "server"]
+CMD ["make", "server"]
