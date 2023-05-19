@@ -13,7 +13,7 @@ services:
       - postgres_db
 
   postgres_db:
-    image: postgres:10.3
+    image: postgres:14.3
     container_name: postgres_db
     ports:
       - '6500:5432'

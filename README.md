@@ -82,6 +82,9 @@ In order to start the project application and the database in containerized mode
 Start the database:
     
     docker-compose up -d postgres_db
+
+Start the project application server:
+
     docker-compose up -d django_app
 
 So the server must be start up at the:
