@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import status, generics, viewsets
+from rest_framework import status, generics, viewsets, serializers
 from pizza_order_api.models import PizzaOrderModel
 from pizza_order_api.serializers import PizzaOrderSerializer, PizzaOrderUpdateSerializer,  PizzaOrderCreateSerializer
 import math
@@ -8,22 +8,30 @@ from datetime import datetime
 
 class PizzaOrderViewSet(viewsets.GenericViewSet):
 
-    serializer_class = PizzaOrderCreateSerializer
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PizzaOrderCreateSerializer
+        elif self.action == 'partial_update':
+            return PizzaOrderUpdateSerializer
+        else:
+            return PizzaOrderSerializer
+
     queryset = PizzaOrderModel.objects.all()
 
     def get_order(self, pk):
         try:
-            order = PizzaOrderModel.objects.get(pk=pk)
+            order:PizzaOrderModel = PizzaOrderModel.objects.get(pk=pk)
             return self.fetch_order_with_items(order)
         except Exception as e:
             print(e)
             return None
 
-    def fetch_order_with_items(self, order):
+    def fetch_order_with_items(self, order:PizzaOrderModel):
         order.items = order.pizza_order_id.all()
         return order
 
     def create(self, request):
+
         serializer = PizzaOrderCreateSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -33,7 +41,7 @@ class PizzaOrderViewSet(viewsets.GenericViewSet):
             return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def partial_update(self, request, pk):
-        order = self.get_order(pk)
+        order:PizzaOrderModel = self.get_order(pk)
         if order is None:
             return Response({"status": "fail", "message": f"Order with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -45,13 +53,11 @@ class PizzaOrderViewSet(viewsets.GenericViewSet):
         return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk):
-        order = self.get_order(pk=pk)
+        order:PizzaOrderModel = self.get_order(pk=pk)
         if order is None:
             return Response({"status": "fail", "message": f"Order with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        print(order)
-        serializer = PizzaOrderSerializer(order)
-        return Response({"status": "success", "order": serializer.data})
+        return Response({"status": "success", "order": PizzaOrderSerializer(instance=order).data})
 
     def list(self, request):
         page_num = int(request.GET.get("page", 1))
@@ -62,7 +68,6 @@ class PizzaOrderViewSet(viewsets.GenericViewSet):
         customer_name_param = request.GET.get("customer_name")
         customer_email_param = request.GET.get("customer_email")
         customer_mobile_param = request.GET.get("customer_mobile")
-        need_order_items = request.GET.get("need_order_items")
 
         orders = PizzaOrderModel.objects.all()
         if status_param:
@@ -76,8 +81,8 @@ class PizzaOrderViewSet(viewsets.GenericViewSet):
 
         total_orders = orders.count()
 
-        if need_order_items is not None and need_order_items.lower() == 'true':
-            orders = [self.fetch_order_with_items(order) for order in orders]
+        # Fetch Items for each order
+        orders = [self.fetch_order_with_items(order) for order in orders]
 
         serializer = PizzaOrderSerializer(orders[start_num:end_num], many=True)
         return Response({
@@ -91,13 +96,14 @@ class PizzaOrderViewSet(viewsets.GenericViewSet):
 
 
     def delete(self, request, pk):
-        order = self.get_order(pk)
+        order:PizzaOrderModel = self.get_order(pk)
         if order is None:
             return Response({"status": "fail", "message": f"Order with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
 
         order.status = 'deleted'
         order.save()
-        return Response({"status": "The order {} has been successfully deleted".format(pk)},status=status.HTTP_200_OK)
+        return Response({"status": "The order {} has been successfully deleted".format(pk),
+                        "order": PizzaOrderSerializer(instance=order).data})
 
 pizza_order_list = PizzaOrderViewSet.as_view({'get': 'list'})
 pizza_order_create = PizzaOrderViewSet.as_view({'post': 'create'})
