@@ -10,6 +10,9 @@ COPY ./requirements.txt /django-pizza-order-service/requirements.txt
 # Install the package dependencies in the requirements file.
 RUN pip install --no-cache-dir --upgrade -r /django-pizza-order-service/requirements.txt
 
+# Install psycopg2
+RUN apt-get update && apt-get -y install libpq-dev gcc && pip install psycopg2
+
 # Copy the ./ directory inside the /code directory.
 COPY . /django-pizza-order-service
 
