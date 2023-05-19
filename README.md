@@ -37,6 +37,6 @@
     
 ### Docker set-up and how to run
 
-    - docker-compose up -d db
+    - docker-compose up -d postgres_db
     
 
