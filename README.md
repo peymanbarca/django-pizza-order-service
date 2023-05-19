@@ -37,5 +37,6 @@
     
 ### Docker set-up and how to run
 
-
+    - docker-compose up -d db
+    
 
