@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "fb1df526-f86a-4a7c-85ad-9c1186e3a2cb",
+		"name": "DRT Pizza Order Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2533794"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"order_info\" :{\r\n        \"customer_name\": \"Peyman Yazdanian\",\r\n        \"customer_email\": \"p.yazdanian74@gmail.com\"\r\n    },\r\n    \"order_items\": [\r\n        {\r\n            \"pizza_flavour\": \"Margarita\",\r\n            \"pizza_size\": \"small\",\r\n            \"pizza_count\": 2\r\n        },\r\n        {\r\n            \"pizza_flavour\": \"Salami\",\r\n            \"pizza_size\": \"medium\",\r\n            \"pizza_count\": 2\r\n        },\r\n        {\r\n            \"pizza_flavour\": \"Margarita\",\r\n            \"pizza_size\": \"large\",\r\n            \"pizza_count\": 3\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/order/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get  Order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/order/04008cb0-e745-485f-8092-3b257c9946ec",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"04008cb0-e745-485f-8092-3b257c9946ec"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete  Order",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/order/295c9090-f2a4-4822-bece-d2982dbbda2f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"295c9090-f2a4-4822-bece-d2982dbbda2f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Orders (filter with status)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/order/search?page=1&limit=10&status=deleted",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"search"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "status",
+							"value": "deleted"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Orders (filter with customer name)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/order/search?page=1&limit=10&customer_name=Peyman&status=new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"search"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "customer_name",
+							"value": "Peyman"
+						},
+						{
+							"key": "status",
+							"value": "new"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update  Order Status",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"delivered\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/order/04008cb0-e745-485f-8092-3b257c9946ec",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"04008cb0-e745-485f-8092-3b257c9946ec"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update  Order Detail (Items)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"order_items\": [\r\n        {\r\n            \"pizza_flavour\": \"Margarita\",\r\n            \"pizza_size\": \"small\",\r\n            \"pizza_count\": 6\r\n        },\r\n        {\r\n            \"pizza_flavour\": \"Salami\",\r\n            \"pizza_size\": \"medium\",\r\n            \"pizza_count\": 5\r\n        },\r\n        {\r\n            \"pizza_flavour\": \"marinara\",\r\n            \"pizza_size\": \"Large\",\r\n            \"pizza_count\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/order/a139e07c-6480-4a47-82eb-60a4ad5ddc83",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"a139e07c-6480-4a47-82eb-60a4ad5ddc83"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
