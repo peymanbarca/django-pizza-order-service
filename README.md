@@ -59,7 +59,7 @@ Then, by running the application, Note that the default value for base address {
 So the swagger web page is accessible on: 
     
     {{url}}/swagger
-
+Also the postman collection for all REST APIs is available in the project in **DRF-Pizza-Order-Service.postman_collection.json**
 
 ### Tests
 In this project, we implemented some API test cases for the following scenarios:

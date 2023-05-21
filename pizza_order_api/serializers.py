@@ -2,6 +2,7 @@ from rest_framework import serializers
 from pizza_order_api.models import PizzaOrderModel, PizzaOrderItemsModel
 from rest_framework import status
 import datetime
+from rest_framework.response import Response
 
 # Model Serializers
 
@@ -73,9 +74,11 @@ class PizzaOrderUpdateSerializer(serializers.Serializer):
     def update(self, instance:PizzaOrderModel, validated_data):
 
         if instance.status == 'delivered':
-            raise serializers.ValidationError(
-                'It should not be possible to update an order for some statutes of delivery (e.g. delivered)'
-                , code=status.HTTP_400_BAD_REQUEST)
+            raise serializers.ValidationError({
+                "status": "fail",
+                 "message":
+                     "It should not be possible to update an order for some statutes of delivery (e.g. delivered)"},
+                           code=status.HTTP_400_BAD_REQUEST)
 
         if 'status' in validated_data.keys() and validated_data['status']:
             instance.status = validated_data['status']
